@@ -1,0 +1,155 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+	--ld-sand: #f4efe6;
+	--ld-ink: #102a43;
+	--ld-accent: #ff7a18;
+	--ld-accent-2: #00a896;
+	--ld-surface: #fffdf9;
+	--ld-muted: #7b8794;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+	background:
+		radial-gradient(circle at top left, rgba(255, 122, 24, 0.18), transparent 30%),
+		radial-gradient(circle at bottom right, rgba(0, 168, 150, 0.16), transparent 28%),
+		linear-gradient(180deg, #fffaf2 0%, #f4efe6 100%);
+	color: var(--ld-ink);
+	font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+	min-height: 100vh;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
+
+button {
+	border: 0;
+	background: none;
+}
+
+.card-surface {
+	background: rgba(255, 253, 249, 0.88);
+	border: 1px solid rgba(16, 42, 67, 0.08);
+	box-shadow: 0 18px 40px rgba(16, 42, 67, 0.08);
+	border-radius: 24px;
+}
+
+.btn-ui {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.55rem;
+	padding: 0.8rem 1.15rem;
+	border-radius: 14px;
+	border: 1px solid transparent;
+	font-weight: 700;
+	cursor: pointer;
+	transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.btn-ui:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 10px 24px rgba(16, 42, 67, 0.1);
+}
+
+.btn-primary {
+	background: linear-gradient(135deg, var(--ld-accent), #ff9a3c);
+	color: #fff;
+}
+
+.btn-outline {
+	background: rgba(255, 255, 255, 0.65);
+	border-color: rgba(16, 42, 67, 0.15);
+	color: var(--ld-ink);
+}
+
+.btn-ghost {
+	background: transparent;
+	color: var(--ld-ink);
+	border-color: rgba(16, 42, 67, 0.08);
+}
+
+.btn-ui:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: none;
+}
+
+.chip-ui {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.45rem 0.8rem;
+	border-radius: 999px;
+	font-size: 0.82rem;
+	font-weight: 700;
+	background: rgba(16, 42, 67, 0.08);
+	color: var(--ld-ink);
+}
+
+.chip-accent {
+	background: rgba(255, 122, 24, 0.14);
+	color: var(--ld-accent);
+}
+
+.chip-success {
+	background: rgba(0, 168, 150, 0.13);
+	color: var(--ld-accent-2);
+}
+
+.chip-muted {
+	background: rgba(123, 135, 148, 0.14);
+	color: var(--ld-muted);
+}
+
+.field-ui,
+.select-ui {
+	width: 100%;
+	padding: 0.9rem 1rem;
+	border-radius: 14px;
+	border: 1px solid rgba(16, 42, 67, 0.14);
+	background: rgba(255, 255, 255, 0.84);
+	color: var(--ld-ink);
+	outline: none;
+}
+
+.field-ui:focus,
+.select-ui:focus {
+	border-color: rgba(255, 122, 24, 0.55);
+	box-shadow: 0 0 0 3px rgba(255, 122, 24, 0.12);
+}
+
+.progress-ui {
+	width: 100%;
+	height: 0.85rem;
+	border-radius: 999px;
+	overflow: hidden;
+	background: rgba(16, 42, 67, 0.08);
+}
+
+.progress-ui > span {
+	display: block;
+	height: 100%;
+	background: linear-gradient(135deg, var(--ld-accent), var(--ld-accent-2));
+	border-radius: inherit;
+}

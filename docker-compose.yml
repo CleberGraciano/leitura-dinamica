@@ -1,0 +1,69 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: leitura-dinamica-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: leitura_dinamica
+      MYSQL_USER: leitura
+      MYSQL_PASSWORD: leitura123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - leitura-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    container_name: leitura-dinamica-backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: leitura_dinamica
+      DB_USERNAME: leitura
+      DB_PASSWORD: leitura123
+      JWT_SECRET: leitura-dinamica-super-secret-key-2026-leitura-dinamica-super-secret-key
+      CORS_ALLOWED_ORIGINS: http://localhost:4200,http://localhost:8100,http://localhost:8081
+    ports:
+      - "8080:8080"
+    networks:
+      - leitura-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: leitura-dinamica-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8081:80"
+    networks:
+      - leitura-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+networks:
+  leitura-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
