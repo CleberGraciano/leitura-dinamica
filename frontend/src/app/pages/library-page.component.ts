@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 
@@ -381,16 +381,6 @@ export class LibraryPageComponent {
     favorite: [false],
     publicBook: [false]
   });
-  protected readonly canSubmit = computed(() => {
-    if (this.submitting()) {
-      return false;
-    }
-
-    const { title, fileType, content } = this.bookForm.getRawValue();
-    const hasSource = !!this.selectedFile || !!content.trim();
-    return this.bookForm.controls.title.valid && !!fileType && hasSource && title.trim().length >= 3;
-  });
-
   toggleFavorite(bookId: number): void {
     this.platformService.toggleFavorite(bookId);
   }
@@ -446,7 +436,7 @@ export class LibraryPageComponent {
   }
 
   submitBook(): void {
-    if (this.bookForm.invalid || (!this.selectedFile && !this.bookForm.controls.content.value.trim())) {
+    if (!this.canSubmit()) {
       this.bookForm.markAllAsTouched();
       this.feedbackKind.set('error');
       this.feedbackMessage.set('Envie um arquivo ou informe um conteudo manual para o livro.');
@@ -526,5 +516,15 @@ export class LibraryPageComponent {
       return 'TXT';
     }
     return 'TEXT';
+  }
+
+  protected canSubmit(): boolean {
+    if (this.submitting()) {
+      return false;
+    }
+
+    const { title, fileType, content } = this.bookForm.getRawValue();
+    const hasSource = !!this.selectedFile || !!content.trim();
+    return this.bookForm.controls.title.valid && !!fileType && hasSource && title.trim().length >= 3;
   }
 }

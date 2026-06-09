@@ -36,10 +36,12 @@ public class BookService {
         this.bookContentExtractorService = bookContentExtractorService;
     }
 
+    @Transactional(readOnly = true)
     public List<BookDtos.BookResponse> findAllByUser(User user) {
         return bookRepository.findByUserIdOrderByCreatedAtDesc(user.getId()).stream().map(bookMapper::toResponse).toList();
     }
 
+    @Transactional(readOnly = true)
     public BookDtos.BookResponse findById(Long id, User user) {
         return bookMapper.toResponse(findOwnedBook(id, user));
     }
